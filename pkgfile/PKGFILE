@@ -1,7 +1,7 @@
 # Maintainer: Vilmar Catafesta <vcatafesta@gmail.com>
 
-pkgname=voidbr-pkgname
-pkgdesc="Package template for VoidBR"
+pkgname=voidbr-labwc
+pkgdesc="VoidBR LABWC Meta Package"
 pkgver=$(date +%Y%m%d)
 pkgrel=$(date +%H%M)
 provides=()  # "eu SOU o $pkgname pkg1, pra quem depender deles"
@@ -14,7 +14,142 @@ url="https://github.com/voidlinuxbr/${pkgname}"
 source=("git+${url}.git")
 md5sums=('SKIP')
 makedepends=()
-depends=()
+depends=(
+	# --- Base VoidBR ---
+	# Sistema, boot, firmware e instalador. O restante necessário para a
+	# sessão labwc está listado abaixo.
+	voidbr-base-common
+
+	# --- Sessão e sistema ---
+	dbus-elogind            # D-Bus com suporte ao elogind (sessão)
+	elogind                 # Sessão e acesso a teclado/mouse/vídeo
+	polkit-elogind          # polkit integrado ao elogind
+	lxqt-policykit          # Agente polkit gráfico (senha de administrador)
+	gnome-keyring           # Chaveiro de senhas (aberto no login pelo PAM do SDDM)
+	libsecret               # API do chaveiro usada pelos apps
+	dconf                   # Configurações GTK (gsettings)
+	glib-networking         # TLS/HTTPS para aplicativos GLib/GTK
+	gvfs                    # Lixeira, montagem e rede no Thunar
+	gvfs-mtp                # Celulares (MTP) no Thunar
+	gvfs-afc                # iPhone/iPad no Thunar
+	gvfs-smb                # Pastas compartilhadas da rede (Windows/Samba) no Thunar
+	udisks2                 # Montagem de discos
+	udiskie                 # Montagem automática de pendrives (ícone na bandeja)
+	upower                  # Energia e bateria
+	power-profiles-daemon   # Perfil de energia (eco / equilibrado / desempenho) na barra
+	NetworkManager          # Rede
+	network-manager-applet  # Ícone de rede na bandeja
+	bluez                   # Bluetooth
+	blueman                 # Ícone de Bluetooth na bandeja
+
+	# --- Compositor e login ---
+	labwc                   # Compositor Wayland flutuante (estilo Openbox)
+	labwc-menu-generator    # Menu de aplicativos do clique direito na área de trabalho
+	voidbr-labwc-config     # Configuração base (skel), tema e scripts voidbr-labwc-*
+	sddm                    # Tela de login
+	voidbr-sddm-themes      # Temas do SDDM
+	weston                  # Compositor da tela de login (SDDM em modo Wayland)
+	xorg-server-xwayland    # Aplicativos X11
+	qt5-wayland
+	qt6-wayland
+	xdg-desktop-portal
+	xdg-desktop-portal-wlr  # Captura e compartilhamento de tela
+	xdg-desktop-portal-gtk  # Seletor de arquivos e demais portais
+	xdg-utils
+	xdg-user-dirs
+
+	# --- Barra, menus e notificações ---
+	Waybar                  # Barra (ext/workspaces + wlr/taskbar do labwc)
+	rofi                    # Lançador e menu de energia
+	mako                    # Notificações
+	libnotify               # notify-send dos scripts
+	playerctl               # Teclas de mídia e módulo mpris
+
+	# --- Áudio (PipeWire) ---
+	pipewire
+	wireplumber             # wpctl: teclas de volume
+	alsa-pipewire
+	libspa-bluetooth        # Áudio Bluetooth
+	pulseaudio-utils        # pactl
+	alsa-utils
+	rtkit
+	pavucontrol             # Mixer
+
+	# --- Captura e clipboard ---
+	grim                    # Captura de tela
+	slurp                   # Seleção de área
+	wl-clipboard            # wl-copy / wl-paste
+	cliphist                # Histórico da área de transferência (Super+V)
+
+	# --- Wallpaper, temas e aparência ---
+	swaybg                  # Papel de parede
+	voidbr-wallpapers       # Papel de parede padrão (voidbr-wallpaper.avif)
+	voidbr-tokyo-theme      # Tokyonight-Dark-Theme, Tokyonight-Dark-Icons, Nordic-cursors
+	papirus-icon-theme      # Ícones de reserva
+	adwaita-icon-theme      # Ícones de reserva (os Tokyonight herdam de "gnome")
+	nwg-look                # Trocar tema GTK, ícones e cursor
+	libavif                 # Abre o .avif do papel de parede (gdk-pixbuf)
+	webp-pixbuf-loader      # Imagens WebP
+	xsettingsd              # Tema, cursor e fonte para apps X11 (Xwayland)
+	librsvg                 # Ícones SVG
+
+	# --- Bloqueio, inatividade e brilho ---
+	swaylock                # Tela de bloqueio
+	swayidle                # Apaga a tela (5 min) e bloqueia (10 min)
+	wlopm                   # Liga/desliga os monitores (swayidle)
+	wlr-randr               # Resolução e posição dos monitores
+	brightnessctl           # Teclas de brilho
+	procps-ng               # pkill / pgrep
+	util-linux              # setsid
+
+	# --- Aceleração gráfica ---
+	mesa
+	mesa-dri
+	mesa-vaapi
+	mesa-vulkan-intel
+	mesa-vulkan-radeon
+	intel-media-driver
+	libva-intel-driver
+	vulkan-loader
+
+	# --- Aplicativos ---
+	foot                    # Terminal
+	firefox
+	firefox-i18n-pt-BR
+	Thunar
+	thunar-volman
+	thunar-archive-plugin
+	tumbler
+	ffmpegthumbnailer
+	file-roller
+	celluloid               # Vídeo
+	amberol                 # Música
+	loupe                   # Imagens
+	libheif                 # Imagens HEIC/HEIF (fotos de celular)
+	mousepad                # Texto
+	zathura                 # PDF
+	zathura-pdf-mupdf
+	io.elementary.calculator # Calculadora
+	gnome-disk-utility      # Discos: formatar pendrive, saúde do disco
+	btop                    # Monitor do sistema (clique em CPU/memória)
+	voidbr-webapps          # Webapps do VoidBR
+	voidbr-iso-writer
+
+	# --- Mídia e codecs ---
+	ffmpeg
+	gst-libav
+	gst-plugins-base1
+	gst-plugins-good1
+	gst-plugins-bad1
+	gst-plugins-ugly1
+
+	# --- Fontes ---
+	nerd-fonts-symbols-ttf  # Ícones da barra e dos menus
+	font-awesome6
+	noto-fonts-ttf          # Fonte da interface (Noto Sans)
+	noto-fonts-emoji
+	dejavu-fonts-ttf
+)
 backup=()
 
 # Automatically detect and use the correct install file
@@ -68,9 +203,16 @@ post_install() {
 	fi
 
 	if [ -z "${VOIDBR_INSTALLER:-}" ]; then
-		:
+		# A cópia do skel para o usuário fica no post_install do voidbr-labwc-config,
+		# que é o pacote que traz o skel (assim ela roda também quando só ele é atualizado).
+		log "Ativando serviços"
+		/usr/local/bin/vservice add NetworkManager --quiet || true
+		/usr/local/bin/vservice add sddm --quiet || true
+		/usr/local/bin/vservice add power-profiles-daemon --quiet || true
+		/usr/local/bin/vservice add bluetoothd --quiet || true
 	fi
 
+	log "${YELLOW}Instalação completa. Reinicie o sistema...${RESET}"
 }
 
 pre_upgrade() {
