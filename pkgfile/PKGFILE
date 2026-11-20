@@ -102,6 +102,11 @@ depends=(
 	procps-ng               # pkill / pgrep
 	util-linux              # setsid
 
+	# --- voidbr-labwc-tweaks (Python + GTK4) ---
+	python3
+	python3-gobject
+	gtk4
+
 	# --- Aceleração gráfica ---
 	mesa
 	mesa-dri
