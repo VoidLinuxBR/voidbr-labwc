@@ -1,11 +1,18 @@
-<div align="center">
+# voidbr-labwc
 
-# 🔵 voidbr-pkgfile-template
+VoidBR LABWC Meta Package
 
-**Template for VoidBR pkgmake/pkgfile packages**
+Edição labwc do VoidBR Linux: compositor Wayland flutuante no estilo Openbox
+(menu no clique direito da área de trabalho, 4 áreas de trabalho, janelas
+encaixáveis nas bordas), com Waybar, rofi, mako e visual Tokyo Night.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+A configuração (skel, tema e scripts `voidbr-labwc-*`) fica no
+[voidbr-labwc-config](https://github.com/voidlinuxbr/voidbr-labwc-config).
 
-</div>
+## Instalação
 
----
+```sh
+sudo xbps-install -S voidbr-labwc
+```
+
+Na tela de login (SDDM), escolha a sessão **VoidBR Labwc**.
